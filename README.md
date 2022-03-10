@@ -1,7 +1,3 @@
-ALTER TABLE `coaches`
-DROP COLUMN `group_id`;
-
-
 ## The Mission
 
 ### 🌱 Must-have features
@@ -85,15 +81,23 @@ SELECT * FROM `groups`;
 SELECT `name` AS 'learner_name', `email` FROM `learners` LIMIT 1;
 ```
 
-```sql
-```
 4. 💩 happens - a group needs to be postponed
-    - Update the start date of the first_group (make it two months later)<sup>\*</sup>
-    - Introduce a new field `status` which can contain a long text indicating the reason for postponing (bonus points if it's a creative one)
+- Update the start date of the first_group (make it two months later)<sup>\*</sup>
+```sql
+UPDATE `groups` SET `start_date` = '2022-08-01' WHERE `id` = 1;
+```
+
+- Introduce a new field `status` which can contain a long text indicating the reason for postponing (bonus points if it's a creative one)
+```sql
+ALTER TABLE `groups`
+ADD `status` TEXT;
+
+UPDATE `groups` SET `status` = 'Coach preoccupied launching rockets into space' WHERE `id` = 1;
+```
+
 5. One of the learners changed his/her mind and decided to be an astronaut
     - Delete someone from the learners table<sup>\*</sup>
 ```sql
-DROP 
 ```
 
 ### 🌼 Nice to have (doable)
