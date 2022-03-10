@@ -96,8 +96,10 @@ UPDATE `groups` SET `status` = 'Coach preoccupied launching rockets into space' 
 ```
 
 5. One of the learners changed his/her mind and decided to be an astronaut
-    - Delete someone from the learners table<sup>\*</sup>
+
+- Delete someone from the learners table<sup>\*</sup>
 ```sql
+DELETE FROM `learners` WHERE `id` = 2;
 ```
 
 ### 🌼 Nice to have (doable)
