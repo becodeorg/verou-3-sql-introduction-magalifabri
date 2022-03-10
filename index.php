@@ -53,14 +53,14 @@ showTables();
 
 $tableToShow = $_POST['tableToShow'] ?? '';
 
-function showTable($table)
+function showTable($table): string
 {
     $dbConnection = connectToDb();
     $query = "SELECT * FROM ${table};";
     $stmt = mysqli_stmt_init($dbConnection);
     if (!mysqli_stmt_prepare($stmt, $query)) {
         echo 'SQL failed <br>';
-        return;
+        return '';
     }
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
@@ -69,26 +69,55 @@ function showTable($table)
     mysqli_close($dbConnection);
 
     $first = true;
-    echo "<h3>table: ${table}<h3>";
-    echo '<table>';
+    $htmlTable = '';
+    $htmlTable .= "<h3>table: ${table}<h3>";
+    $htmlTable .= '<table>';
     while ($rows = $result->fetch_assoc()) {
         if ($first) {
-            echo '<tr>';
+            $htmlTable .= '<tr>';
             foreach ($rows as $key => $value) {
-                echo "<th>${key}</th>";
+                $htmlTable .= "<th>${key}</th>";
             }
-            echo '</tr>';
+            $htmlTable .= '</tr>';
 
             $first = false;
         }
-        echo '<tr>';
+        $htmlTable .= '<tr>';
         foreach ($rows as $key => $value) {
-            echo "<td>${value}</td>";
+            $htmlTable .= "<td>${value}</td>";
         }
-        echo '</tr>';
+        $htmlTable .= '</tr>';
     }
+
+    return $htmlTable;
 }
 
 if (!empty($tableToShow)) {
-    showTable($tableToShow);
+    $htmlTable = showTable($tableToShow);
 }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <?php if (!empty($htmlTable)) : ?>
+        <?= $htmlTable ?>
+    <?php endif ?>
+
+</body>
+
+</html>
+
+<!-- <form action="" method="POST">
+    <input type="text">
+</form> -->
