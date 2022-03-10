@@ -123,10 +123,27 @@ if (key_exists('insertLearner', $_POST)) {
 }
 
 
+function deleteLearner()
+{
+    $dbConnection = connectToDb();
+
+    $learnerID = $_POST['id'];
+
+    $query = 'DELETE FROM learners WHERE id = ?;';
+    $stmt = mysqli_stmt_init($dbConnection);
+    if (!mysqli_stmt_prepare($stmt, $query)) {
+        echo 'SQL failed';
+        return;
+    }
+    mysqli_stmt_bind_param($stmt, 'i', $learnerID);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
+}
+
 if (key_exists('deleteLearner', $_POST)) {
-    // echo '<pre>';
-    // var_dump($_POST);
-    // echo '</pre>';
+    deleteLearner();
 }
 
 ?>
