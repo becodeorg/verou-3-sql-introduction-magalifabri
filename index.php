@@ -39,8 +39,8 @@ function showTables()
         </form>";
     }
 
-    // mysqli_stmt_close($stmt);
-    // mysqli_close($dbConnection);
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
 }
 
 showTables();
