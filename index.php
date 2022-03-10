@@ -47,11 +47,6 @@ function showTables(): string
 
 $tableLinks = showTables();
 
-// echo '<pre>';
-// var_dump($_POST);
-// echo '</pre>';
-
-$tableToShow = $_POST['tableToShow'] ?? '';
 
 function showTable($table): string
 {
@@ -93,14 +88,38 @@ function showTable($table): string
     return $htmlTable;
 }
 
+$tableToShow = $_POST['tableToShow'] ?? '';
+
 if (!empty($tableToShow)) {
     $htmlTable = showTable($tableToShow);
 }
 
+
+function insertLearner()
+{
+    $dbConnection = connectToDb();
+
+    $groupID = $_POST['group_id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $active = isset($_POST['active']) ? true : false;
+
+    $query = 'INSERT INTO learners (group_id, name, email, active)
+    VALUES (?, ?, ?, ?);';
+    $stmt = mysqli_stmt_init($dbConnection);
+    if (!mysqli_stmt_prepare($stmt, $query)) {
+        echo 'SQL failed';
+        return;
+    }
+    mysqli_stmt_bind_param($stmt, 'issi', $groupID, $name, $email, $active);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
+}
+
 if (key_exists('insertLearner', $_POST)) {
-    echo '<pre>';
-    var_dump($_POST);
-    echo '</pre>';
+    insertLearner();
 }
 
 ?>
