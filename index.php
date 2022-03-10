@@ -18,14 +18,14 @@ function connectToDb()
     return $dbConnection;
 }
 
-function showTables()
+function showTables(): string
 {
     $dbConnection = connectToDb();
     $query = 'SHOW TABLES;';
     $stmt = mysqli_stmt_init($dbConnection);
     if (!mysqli_stmt_prepare($stmt, $query)) {
         echo 'SQL failed <br>';
-        return;
+        return '';
     }
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
@@ -34,18 +34,18 @@ function showTables()
     mysqli_stmt_close($stmt);
     mysqli_close($dbConnection);
 
-    echo '<h3>database tables:</h3>';
-    // $tableLinks = [];
+    $tableLinks = '';
     foreach ($tables as $table) {
-        echo
-        "<form action='' method='POST'>
-            <input type='submit' name='tableToShow' value='${table[0]}'>
-        </form>";
+        $tableLinks .=
+            "<form action='' method='POST'>
+                <input type='submit' name='tableToShow' value='${table[0]}'>
+            </form>";
     }
-    echo '<hr>';
+
+    return $tableLinks;
 }
 
-showTables();
+$tableLinks = showTables();
 
 // echo '<pre>';
 // var_dump($_POST);
@@ -70,7 +70,7 @@ function showTable($table): string
 
     $first = true;
     $htmlTable = '';
-    $htmlTable .= "<h3>table: ${table}<h3>";
+    $htmlTable .= "<h3>table: ${table}</h3>";
     $htmlTable .= '<table>';
     while ($rows = $result->fetch_assoc()) {
         if ($first) {
@@ -88,6 +88,7 @@ function showTable($table): string
         }
         $htmlTable .= '</tr>';
     }
+    $htmlTable .= '</table>';
 
     return $htmlTable;
 }
@@ -110,6 +111,13 @@ if (!empty($tableToShow)) {
 
 <body>
 
+    <h3>database tables:</h3>
+    <?php if (!empty($tableLinks)) : ?>
+        <?= $tableLinks ?>
+    <?php endif ?>
+
+    <hr>
+
     <?php if (!empty($htmlTable)) : ?>
         <?= $htmlTable ?>
     <?php endif ?>
@@ -117,7 +125,3 @@ if (!empty($tableToShow)) {
 </body>
 
 </html>
-
-<!-- <form action="" method="POST">
-    <input type="text">
-</form> -->
