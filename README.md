@@ -105,15 +105,33 @@ DELETE FROM `learners` WHERE `id` = 2;
 ### 🌼 Nice to have (doable)
 
 6. A learner belongs to a group, and a group has a coach
-    - Find a technique to make this connection in the database (what of the field is unique to a record, so we can refer to it?)
+
+- Find a technique to make this connection in the database (what of the field is unique to a record, so we can refer to it?)
+```sql
+ALTER TABLE `learners`
+ADD `group_id` INT(11) AFTER id;
+
+UPDATE `learners` SET `group_id` = 1;
+
+
+ALTER TABLE `coaches`
+ADD `group_id` INT(11) AFTER `id`;
+
+UPDATE `coaches` SET `group_id` = 1 WHERE `id` = 1;
+UPDATE `coaches` SET `group_id` = 2 WHERE `id` = 2;
+```
+
 7. We want all the data
-    - Select a coach and all related groups<sup>\*</sup>
-    - Select all the above, but also all learners from this group who are still active<sup>\*</sup>
+
+- Select a coach and all related groups<sup>\*</sup>
+```sql
+```
+
+- Select all the above, but also all learners from this group who are still active<sup>\*</sup>
+```sql
+```
 
 ### 🌳 Nice to have (hard)
 
 Bonus round: try some steps again, but this time run your SQL from PHP.
 You'll need to connect PHP to the database first. What techniques can you find to do so? Why do you choose one or another? Don't overthink the structure at this point, one file is enough.
-
-Enjoy the ride! Don't forget to look back at what you've achieved so far every once in a while - you'll be old before you know 🙃
-![](https://media.giphy.com/media/2nJgpMuR2fVn2/giphy.gif)
