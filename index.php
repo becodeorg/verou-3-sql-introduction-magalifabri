@@ -97,6 +97,12 @@ if (!empty($tableToShow)) {
     $htmlTable = showTable($tableToShow);
 }
 
+if (key_exists('insertLearner', $_POST)) {
+    echo '<pre>';
+    var_dump($_POST);
+    echo '</pre>';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -121,6 +127,27 @@ if (!empty($tableToShow)) {
     <?php if (!empty($htmlTable)) : ?>
         <?= $htmlTable ?>
     <?php endif ?>
+
+    <form action="" method="POST">
+        <h3>insert learner</h3>
+        <p>
+            <label for="group_id">group id</label>
+            <input type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '' ?>">
+        </p>
+        <p>
+            <label for="name">name</label>
+            <input type="text" id="name" name="name" value="<?= $_POST['name'] ?? '' ?>">
+        </p>
+        <p>
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" value="<?= $_POST['email'] ?? '' ?>">
+        </p>
+        <p>
+            <label for="active">active</label>
+            <input type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : '' ?>>
+        </p>
+        <input type="submit" name="insertLearner">
+    </form>
 
 </body>
 
