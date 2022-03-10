@@ -8,7 +8,9 @@ DROP COLUMN `group_id`;
 
 1. Get familiar with [the basics](./SQL-basics.md) and set up a database
 2. Make the following tables and populate them with some dummy data (have at least two entries for every table)
-    - groups: id, name, location, start_date, max_participants
+    
+
+- groups: id, name, location, start_date, max_participants
 ```sql
 CREATE TABLE groups (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +33,8 @@ INSERT INTO `groups` (
     '2022-09-01'
 );
 ```
-    - learners: id, name, email, active
+
+- learners: id, name, email, active
 ```sql
 CREATE TABLE learners (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +61,8 @@ INSERT INTO `learners` (
     1
 )
 ```
-    - coaches: id, name
+
+- coaches: id, name
 ```sql
 CREATE TABLE coaches (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -70,8 +74,19 @@ VALUES ('Elon'), ('Mark');
 ```
 
 3. Try the following selects
-    - Get all data from the groups<sup>\*</sup>
-    - Get the name and email of the first learner, and alias the name to learner_name<sup>\*</sup>
+
+- Get all data from the groups<sup>\*</sup>
+```sql
+SELECT * FROM `groups`;
+```
+
+- Get the name and email of the first learner, and alias the name to learner_name<sup>\*</sup>
+```sql
+SELECT `name` AS 'learner_name', `email` FROM `learners` LIMIT 1;
+```
+
+```sql
+```
 4. 💩 happens - a group needs to be postponed
     - Update the start date of the first_group (make it two months later)<sup>\*</sup>
     - Introduce a new field `status` which can contain a long text indicating the reason for postponing (bonus points if it's a creative one)
