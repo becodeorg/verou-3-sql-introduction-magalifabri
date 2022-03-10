@@ -31,6 +31,9 @@ function showTables()
     $result = mysqli_stmt_get_result($stmt);
     $tables = $result->fetch_all();
 
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
+
     echo '<h3>database tables:</h3>';
     // $tableLinks = [];
     foreach ($tables as $table) {
@@ -40,9 +43,6 @@ function showTables()
         </form>";
     }
     echo '<hr>';
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($dbConnection);
 }
 
 showTables();
@@ -65,6 +65,9 @@ function showTable($table)
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
+
     $first = true;
     echo "<h3>table: ${table}<h3>";
     echo '<table>';
@@ -84,9 +87,6 @@ function showTable($table)
         }
         echo '</tr>';
     }
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($dbConnection);
 }
 
 if (!empty($tableToShow)) {
