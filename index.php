@@ -31,13 +31,15 @@ function showTables()
     $result = mysqli_stmt_get_result($stmt);
     $tables = $result->fetch_all();
 
-    $tableLinks = [];
+    echo '<h3>database tables:</h3>';
+    // $tableLinks = [];
     foreach ($tables as $table) {
         echo
         "<form action='' method='POST'>
             <input type='submit' name='tableToShow' value='${table[0]}'>
         </form>";
     }
+    echo '<hr>';
 
     mysqli_stmt_close($stmt);
     mysqli_close($dbConnection);
