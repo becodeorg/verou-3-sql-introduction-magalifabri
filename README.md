@@ -104,7 +104,7 @@ DELETE FROM `learners` WHERE `id` = 2;
 
 ### 🌼 Nice to have (doable)
 
-6. A learner belongs to a group, and a group has a coach
+6. A learner belongs to a group, and a group has ~~a coach~~ coaches
 
 - Find a technique to make this connection in the database (what of the field is unique to a record, so we can refer to it?)
 ```sql
@@ -124,11 +124,105 @@ UPDATE `coaches` SET `group_id` = 2 WHERE `id` = 2;
 7. We want all the data
 
 - Select a coach and all related groups<sup>\*</sup>
+
 ```sql
+-- Remake the database with following setup: 1 coach - many groups, 1 group - many students
+
+CREATE TABLE groups (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    coach_id INT(11),
+    name VARCHAR(255),
+    location VARCHAR(255),
+    start_date DATE
+);
+
+INSERT INTO `groups` (
+    `coach_id`,
+    `name`,
+    `location`,
+    `start_date`
+) VALUES (
+    1
+    'elon-1',
+    'Ghent',
+    '2022-06-01'
+) , (
+    1
+    'elon-2',
+    'Brussels',
+    '2022-12-01'
+), (
+    2
+    'zuck-1',
+    'Ghent',
+    '2022-09-01'
+);
+
+
+CREATE TABLE learners (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    group_id INT(11),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    active BOOLEAN
+);
+
+INSERT INTO `learners` (
+    `group_id`
+    `name`,
+    `email`,
+    `active`
+) VALUES (
+    1
+    'Pikachu',
+    'chuchu@hotmail.com',
+    1
+), (
+    1
+    'Squirtle',
+    'squirt@hotmail.com',
+    1
+), (
+    1
+    'Bulbasaur',
+    'bulb@hotmail.com',
+    0
+), (
+    2
+    'Charmander',
+    'spicy@hotmail.com',
+    1
+), (
+    3
+    'Mew',
+    'bubblegum@hotmail.com',
+    1
+);
+
+
+CREATE TABLE coaches (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+INSERT INTO `coaches` (`name`)
+VALUES ('Elon'), ('Mark');
+```
+
+```sql
+SELECT c.name AS coach_name, g.name AS group_name
+FROM groups g
+LEFT JOIN coaches c ON g.coach_id = c.id
+WHERE g.coach_id = 1;
 ```
 
 - Select all the above, but also all learners from this group who are still active<sup>\*</sup>
 ```sql
+SELECT c.name AS coach_name, g.name AS group_name, l.name AS learner_name
+FROM groups g
+LEFT JOIN coaches c ON g.coach_id = c.id
+LEFT JOIN learners l ON g.id = l.group_id
+WHERE g.coach_id = 1 AND l.active = 1;
 ```
 
 ### 🌳 Nice to have (hard)
