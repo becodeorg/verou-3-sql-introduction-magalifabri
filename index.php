@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 function connectToDb()
 {
     $dbServername = 'localhost';
@@ -32,6 +38,9 @@ function showTables()
             <input type='submit' name='tableToShow' value='${table[0]}'>
         </form>";
     }
+
+    // mysqli_stmt_close($stmt);
+    // mysqli_close($dbConnection);
 }
 
 showTables();
@@ -40,15 +49,44 @@ showTables();
 // var_dump($_POST);
 // echo '</pre>';
 
-// $tableToShow = $_POST['tableToShow'] ?? '';
+$tableToShow = $_POST['tableToShow'] ?? '';
 
-// function showTable($table)
-// {
-//     echo 'showing table ' . $table;
-//     $query = "SELECT * FROM $table;";
-//     // $stmt = 
-// }
+function showTable($table)
+{
+    $dbConnection = connectToDb();
+    $query = "SELECT * FROM ${table};";
+    $stmt = mysqli_stmt_init($dbConnection);
+    if (!mysqli_stmt_prepare($stmt, $query)) {
+        echo 'SQL failed <br>';
+        return;
+    }
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-// if (!empty($tableToShow)) {
-//     showTable($tableToShow);
-// }
+    $first = true;
+    echo "<h3>table: ${table}<h3>";
+    echo '<table>';
+    while ($rows = $result->fetch_assoc()) {
+        if ($first) {
+            echo '<tr>';
+            foreach ($rows as $key => $value) {
+                echo "<th>${key}</th>";
+            }
+            echo '</tr>';
+
+            $first = false;
+        }
+        echo '<tr>';
+        foreach ($rows as $key => $value) {
+            echo "<td>${value}</td>";
+        }
+        echo '</tr>';
+    }
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($dbConnection);
+}
+
+if (!empty($tableToShow)) {
+    showTable($tableToShow);
+}
