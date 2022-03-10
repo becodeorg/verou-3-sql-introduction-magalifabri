@@ -122,6 +122,13 @@ if (key_exists('insertLearner', $_POST)) {
     insertLearner();
 }
 
+
+if (key_exists('deleteLearner', $_POST)) {
+    // echo '<pre>';
+    // var_dump($_POST);
+    // echo '</pre>';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -166,6 +173,15 @@ if (key_exists('insertLearner', $_POST)) {
             <input type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : '' ?>>
         </p>
         <input type="submit" name="insertLearner">
+    </form>
+
+    <form action="" method="POST">
+        <h3>delete learner</h3>
+        <p>
+            <label for="id">learner id</label>
+            <input type="number" id="id" name="id">
+            <input type="submit" value="delete" name="deleteLearner">
+        </p>
     </form>
 
 </body>
