@@ -63,25 +63,40 @@ function showTable($table): string
     mysqli_stmt_close($stmt);
     mysqli_close($dbConnection);
 
-    $first = true;
-    $htmlTable = '';
-    $htmlTable .= "<h3>table: ${table}</h3>";
+    $firstRow = true;
+    $htmlTable = "<h3>table: ${table}</h3>";
     $htmlTable .= '<table>';
     while ($rows = $result->fetch_assoc()) {
-        if ($first) {
+        // create header row
+        if ($firstRow) {
             $htmlTable .= '<tr>';
             foreach ($rows as $key => $value) {
                 $htmlTable .= "<th>${key}</th>";
             }
             $htmlTable .= '</tr>';
 
-            $first = false;
+            $firstRow = false;
         }
+
+        // create rows
         $htmlTable .= '<tr>';
         foreach ($rows as $key => $value) {
+            // save id to use with delete button
+            if ($key === 'id') {
+                $id = $value;
+            }
             $htmlTable .= "<td>${value}</td>";
         }
-        $htmlTable .= '</tr>';
+        // add delete button to end of row in learners table
+        if ($table === 'learners') {
+            $htmlTable .= '
+                <td>
+                    <form action="" method="POST">
+                        <button type="submit" name="deleteLearner" value="' . $id . '">ⓧ</button>
+                    </form>
+                </td>';
+            $htmlTable .= '</tr>';
+        }
     }
     $htmlTable .= '</table>';
 
@@ -127,7 +142,7 @@ function deleteLearner()
 {
     $dbConnection = connectToDb();
 
-    $learnerID = $_POST['id'];
+    $learnerID = $_POST['deleteLearner'];
 
     $query = 'DELETE FROM learners WHERE id = ?;';
     $stmt = mysqli_stmt_init($dbConnection);
@@ -192,14 +207,14 @@ if (key_exists('deleteLearner', $_POST)) {
         <input type="submit" name="insertLearner">
     </form>
 
-    <form action="" method="POST">
+    <!-- <form action="" method="POST">
         <h3>delete learner</h3>
         <p>
             <label for="id">learner id</label>
             <input type="number" id="id" name="id">
             <input type="submit" value="delete" name="deleteLearner">
         </p>
-    </form>
+    </form> -->
 
 </body>
 
