@@ -1,0 +1,6 @@
+input.group_id,
+input.name,
+input.email {
+    width: 100%;
+    box-sizing: border-box;
+}
