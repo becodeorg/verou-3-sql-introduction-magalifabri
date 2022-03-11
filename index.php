@@ -6,6 +6,7 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+
 function connectToDb()
 {
     $dbServername = 'localhost';
@@ -17,6 +18,7 @@ function connectToDb()
 
     return $dbConnection;
 }
+
 
 function showTables(): string
 {
@@ -37,15 +39,13 @@ function showTables(): string
     $tableLinks = '';
     foreach ($tables as $table) {
         $tableLinks .=
-            "<form action='' method='POST'>
+            "<form action='' method='GET'>
                 <input type='submit' name='tableToShow' value='${table[0]}'>
             </form>";
     }
 
     return $tableLinks;
 }
-
-$tableLinks = showTables();
 
 
 function showTable($table): string
@@ -118,12 +118,6 @@ function showTable($table): string
     return $htmlTable;
 }
 
-$tableToShow = $_POST['tableToShow'] ?? '';
-
-if (!empty($tableToShow)) {
-    $htmlTable = showTable($tableToShow);
-}
-
 
 function insertLearner()
 {
@@ -148,10 +142,6 @@ function insertLearner()
     mysqli_close($dbConnection);
 }
 
-if (key_exists('insertLearner', $_POST)) {
-    insertLearner();
-}
-
 
 function deleteLearner()
 {
@@ -172,13 +162,22 @@ function deleteLearner()
     mysqli_close($dbConnection);
 }
 
-if (key_exists('deleteLearner', $_POST)) {
+
+$tableLinks = showTables();
+
+if (key_exists('insertLearner', $_POST)) {
+    insertLearner();
+} else if (key_exists('deleteLearner', $_POST)) {
     deleteLearner();
 }
 
-
+if (!empty($_GET['tableToShow'])) {
+    $htmlTable = showTable($_GET['tableToShow']);
+}
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
