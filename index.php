@@ -99,22 +99,6 @@ function showTable($table): string
         }
     }
 
-    // if ($table === 'learners') {
-    //     $htmlTable .= "
-    // <tr class=\"insert-learner\">
-    //     <td></td>
-    //     <form action=\"\" method=\"POST\">
-    //         <td class=\"input\"><input class=\"group_id\" type=\"number\" id=\"group_id\" name=\"group_id\"></td>
-    //         <td class=\"input\"><input class=\"name\" type=\"text\" id=\"name\" name=\"name\"></td>
-    //         <td class=\"input\"><input class=\"email\" type=\"email\" id=\"email\" name=\"email\"></td>
-    //         <td><input class=\"active\" type=\"checkbox\" id=\"active\" name=\"active\"></td>
-    //         <td><input class=\"submit\" type=\"submit\" name=\"insertLearner\"></td>
-    //     </form>
-    // </tr>";
-    // }
-
-    // $htmlTable .= '</table>';
-
     return $htmlTable;
 }
 
@@ -203,45 +187,20 @@ if (!empty($_GET['tableToShow'])) {
 
     <?php if (!empty($htmlTable)) : ?>
         <?= $htmlTable ?>
-        <tr class="insert-learner">
-            <td></td>
-            <form action="" method="POST">
-                <td class="input"><input class="group_id" type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>"></td>
-                <td class="input"><input class="name" type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>"></td>
-                <td class="input"><input class="email" type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>"></td>
-                <td><input class="active" type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : 'checked' ?>></td>
-                <td><input class="submit" type="submit" name="insertLearner"></td>
-            </form>
-        </tr>
+        <?php if ($_GET['tableToShow'] === 'learners') : ?>
+            <tr class="insert-learner">
+                <td></td>
+                <form action="" method="POST">
+                    <td class="input"><input class="group_id" type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>"></td>
+                    <td class="input"><input class="name" type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>"></td>
+                    <td class="input"><input class="email" type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>"></td>
+                    <td><input class="active" type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : 'checked' ?>></td>
+                    <td><input class="submit" type="submit" name="insertLearner"></td>
+                </form>
+            </tr>
+        <?php endif ?>
         </table>
     <?php endif ?>
-
-    <!-- <form action="" method="POST">
-        <h3>insert learner</h3>
-        <p>
-            <label for="group_id">group id</label>
-            <input type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>">
-        </p>
-        <p>
-            <label for="name">name</label>
-            <input type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>">
-        </p>
-        <p>
-            <label for="email">email</label>
-            <input type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>">
-        </p>
-        <p>
-            <label for="active">active</label>
-            <input type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : 'checked' ?>>
-        </p>
-        <input type="submit" name="insertLearner">
-
-        <tr><input type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>"></tr>
-        <tr><input type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>"></tr>
-        <tr><input type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>"></tr>
-        <tr><input type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : 'checked' ?>></tr>
-        <tr><input type="submit" name="insertLearner"></tr>
-    </form> -->
 
 </body>
 
