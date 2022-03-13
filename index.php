@@ -191,9 +191,15 @@ if (!empty($_GET['tableToShow'])) {
             <tr class="insert-learner">
                 <td></td>
                 <form action="" method="POST">
-                    <td class="input"><input class="group_id" type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>"></td>
-                    <td class="input"><input class="name" type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>"></td>
-                    <td class="input"><input class="email" type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>"></td>
+                    <td class="input">
+                        <div><input class="group_id" type="number" id="group_id" name="group_id" value="<?= $_POST['group_id'] ?? '1' ?>"></div>
+                    </td>
+                    <td class="input">
+                        <div><input class="name" type="text" id="name" name="name" value="<?= $_POST['name'] ?? 'Diglett' ?>"></div>
+                    </td>
+                    <td class="input">
+                        <div><input class="email" type="email" id="email" name="email" value="<?= $_POST['email'] ?? 'dig_it@hotmail.com' ?>"></div>
+                    </td>
                     <td><input class="active" type="checkbox" id="active" name="active" <?= isset($_POST['active']) ? "checked" : 'checked' ?>></td>
                     <td><input class="submit" type="submit" name="insertLearner"></td>
                 </form>

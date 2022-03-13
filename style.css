@@ -4,3 +4,15 @@ input.email {
     width: 100%;
     box-sizing: border-box;
 }
+
+td.input {
+    position: relative;
+}
+
+td.input > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
